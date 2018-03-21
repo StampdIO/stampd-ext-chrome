@@ -16,6 +16,8 @@ $(function () {
   var $tabs = $('[data-tab-btn]');
   var $tabContents = $('[data-tab-content]');
 
+  var currentStamp = {};
+
   // Tabs
   // =========================================================
 
@@ -50,10 +52,10 @@ $(function () {
     $notif.attr('data-notification-type', type);
 
     $notif_cont.html(text);
-    $notif.slideDown(function () {
+    $notif.slideUp(0).clearQueue().slideDown(function () {
       window.setTimeout(function () {
         $notif.fadeOut();
-      }, 2000);
+      }, 4000);
     });
   };
 
@@ -68,7 +70,11 @@ $(function () {
     chrome.tabs.executeScript({
       code: '(' + returnDOM + ')();'
     }, (results) => {
-      cb(results[0]);
+      if (results && results[0]) {
+        cb(results[0]);
+      } else {
+        cb(false);
+      }
     });
   };
 
@@ -83,8 +89,25 @@ $(function () {
       secret_key: secret_key,
     }, function (res) {
       var res_json = JSON.parse(res);
-      cb(res_json.session_id ? res_json.session_id : false);
-    }).fail(function () {
+      cb(res_json.code ? res_json.code : false);
+    }).fail(function (res) {
+      cb(false);
+    });
+  };
+
+  // Post hash
+  // =========================================================
+
+  var post_hash = function (hash, blockchain, cb) {
+
+    $.post(API_URL, {
+      requestedURL: "hash",
+      hash: hash,
+      blockchain: blockchain,
+    }, function (res) {
+      var res_json = JSON.parse(res);
+      cb(res_json ? res_json : false);
+    }).fail(function (res) {
       cb(false);
     });
   };
@@ -106,9 +129,57 @@ $(function () {
   // =========================================================
 
   var retrieved_hash = function (hash) {
-    // TODO: do something with hash
-    console.warn(HASH_PREFIX + hash);
+    currentStamp.hash = HASH_PREFIX + hash;
+
+    post_hash(currentStamp.hash, currentStamp.blockchain, function (res) {
+
+      if (!res) {
+        $set_form.removeClass('is-disabled');
+        display_notification('There was an error during your stamping, please try again', 'error');
+        return;
+      }
+
+      if (res.code && res.code === 106) {
+        $set_form.removeClass('is-disabled');
+        display_notification('You have run out stamps, please visit stampd.io to get more', 'error');
+        return;
+      }
+
+      if (res.code && res.code === 202) {
+        $set_form.removeClass('is-disabled');
+        display_notification('This hash has already been stampd via our service', 'error');
+        return;
+      }
+
+      currentStamp.txid = res.txid;
+
+      // create new tab and fill data
+      chrome.tabs.create({url: chrome.extension.getURL('result.html'), active: false}, function (tab) {
+        currentStamp.tab_id = tab.id;
+      });
+
+    });
   };
+
+  // New tab finished loading
+  // =========================================================
+
+  chrome.runtime.onMessage.addListener(function (request, sender, response) {
+
+    if (request.action === 'finished_loading') {
+      chrome.tabs.sendMessage(currentStamp.tab_id, {
+        action: 'fill_data',
+        hash: currentStamp.hash,
+        img: currentStamp.img,
+        data: currentStamp.data,
+        type: currentStamp.type,
+        url: currentStamp.tab_url,
+        txid: currentStamp.txid,
+      });
+
+      chrome.tabs.update(currentStamp.tab_id, {highlighted: true});
+    }
+  });
 
   // Load settings
   // =========================================================
@@ -171,14 +242,15 @@ $(function () {
     var secret_key = $secret_key.val();
 
     if (!navigator.onLine) {
+      $set_form.removeClass('is-disabled');
       display_notification('Your computer appears to be offline', 'error');
       return;
     }
 
-    sign_in(client_id, secret_key, function (session_id) {
+    sign_in(client_id, secret_key, function (code) {
       $set_form.removeClass('is-disabled');
 
-      if (!session_id) {
+      if (!code || (code !== 200 && code !== 300)) {
         display_notification('Incorrect credentials', 'error');
         return;
       }
@@ -201,58 +273,61 @@ $(function () {
   $stamp_form.submit(function (e) {
     e.preventDefault();
 
+    currentStamp = {};
+
     $stamp_form.addClass('is-disabled');
 
     var client_id = $client_id.val();
     var secret_key = $secret_key.val();
 
-    var blockchain = $blockchain.val();
-    var type = $type.val();
-
-    if (type === 'page_content') {
-      // DOM content
-      retrieveActiveTabDom(function (dom) {
-
-        // TODO: hash below val
-        console.warn(dom);
-
-        calc_hash(dom, retrieved_hash);
-
-      });
-    } else {
-      // screenshot
-      chrome.tabs.captureVisibleTab(null, {}, function (image) {
-
-        // TODO: hash below val
-        console.warn(image);
-
-        calc_hash(image, retrieved_hash);
-
-      });
-    }
-
     if (!navigator.onLine) {
+      $stamp_form.removeClass('is-disabled');
       display_notification('Your computer appears to be offline', 'error');
       return;
     }
 
-    sign_in(client_id, secret_key, function (session_id) {
-      if (!session_id) {
-        $set_form.removeClass('is-disabled');
+    sign_in(client_id, secret_key, function (code) {
+      if (!code || (code !== 200 && code !== 300)) {
+        $stamp_form.removeClass('is-disabled');
         display_notification('Incorrect credentials', 'error');
         return;
       }
 
+      display_notification('Please wait and do not close this popup as your stamping is being processed', 'success');
+
       var blockchain = $blockchain.val();
       var type = $type.val();
+
+      currentStamp.blockchain = blockchain;
+
+      chrome.tabs.getSelected(null, function (tab) {
+
+        // if (tab.incognito) {
+        //   $stamp_form.removeClass('is-disabled');
+        //   display_notification('This extension will not function properly in incognito', 'error');
+        //   return;
+        // }
+
+        currentStamp.tab_url = tab.url;
+      });
 
       if (type === 'page_content') {
         // DOM content
         retrieveActiveTabDom(function (dom) {
 
-          // TODO: hash below val
-          console.warn(dom);
+          if (!dom) {
+            $stamp_form.removeClass('is-disabled');
+            display_notification('Could not retrieve the content of the active tab', 'error');
+            return;
+          }
 
+          // screenshot
+          chrome.tabs.captureVisibleTab(null, {}, function (image) {
+            currentStamp.img = image;
+          });
+
+          currentStamp.data = dom;
+          currentStamp.type = 'dom';
           calc_hash(dom, retrieved_hash);
 
         });
@@ -260,15 +335,13 @@ $(function () {
         // screenshot
         chrome.tabs.captureVisibleTab(null, {}, function (image) {
 
-          // TODO: hash below val
-          console.warn(image);
-
+          currentStamp.data = image;
+          currentStamp.img = image;
+          currentStamp.type = 'img';
           calc_hash(image, retrieved_hash);
 
         });
       }
-
-      console.warn(blockchain, type, session_id);
 
       $set_form.removeClass('is-disabled');
     });
