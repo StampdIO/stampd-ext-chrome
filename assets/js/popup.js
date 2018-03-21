@@ -134,19 +134,19 @@ $(function () {
     post_hash(currentStamp.hash, currentStamp.blockchain, function (res) {
 
       if (!res) {
-        $set_form.removeClass('is-disabled');
+        $stamp_form.removeClass('is-disabled');
         display_notification('There was an error during your stamping, please try again', 'error');
         return;
       }
 
       if (res.code && res.code === 106) {
-        $set_form.removeClass('is-disabled');
+        $stamp_form.removeClass('is-disabled');
         display_notification('You have run out stamps, please visit stampd.io to get more', 'error');
         return;
       }
 
       if (res.code && res.code === 202) {
-        $set_form.removeClass('is-disabled');
+        $stamp_form.removeClass('is-disabled');
         display_notification('This hash has already been stampd via our service', 'error');
         return;
       }
