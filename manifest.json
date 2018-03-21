@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Stampd.io Blockchain Stamping",
+  "description": "Entrust the Blockchain to notarize proof of ownership of any digital creation.",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "assets/img/icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "<all_urls>"
+  ]
+}
