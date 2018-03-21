@@ -1,20 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7475bbf6-0c51-45cc-a43d-aeacc210b34a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/src/scss/_elements/_result.scss" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/assets/js/toggle-class.js" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/css/plugin.css" afterPath="$PROJECT_DIR$/assets/css/plugin.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/css/plugin.min.css" afterPath="$PROJECT_DIR$/assets/css/plugin.min.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/js/popup.js" afterPath="$PROJECT_DIR$/assets/js/popup.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/src/scss/_config/_variables.scss" afterPath="$PROJECT_DIR$/assets/src/scss/_config/_variables.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/src/scss/_elements/_container.scss" afterPath="$PROJECT_DIR$/assets/src/scss/_elements/_container.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/src/scss/plugin.scss" afterPath="$PROJECT_DIR$/assets/src/scss/plugin.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/manifest.json" afterPath="$PROJECT_DIR$/manifest.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/popup.html" afterPath="$PROJECT_DIR$/popup.html" />
-    </list>
+    <list default="true" id="7475bbf6-0c51-45cc-a43d-aeacc210b34a" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,11 +15,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="popup.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="popup.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/js/popup.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="147" column="13" lean-forward="false" selection-start-line="147" selection-start-column="10" selection-end-line="147" selection-end-column="13" />
+            <state relative-caret-position="110">
+              <caret line="5" column="49" lean-forward="false" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -48,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="result.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="result.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/js/result.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+            <state relative-caret-position="132">
+              <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -198,9 +185,9 @@
         <option value="$PROJECT_DIR$/assets/src/scss/_elements/_container.scss" />
         <option value="$PROJECT_DIR$/popup.html" />
         <option value="$PROJECT_DIR$/assets/src/scss/_elements/_result.scss" />
-        <option value="$PROJECT_DIR$/assets/js/popup.js" />
         <option value="$PROJECT_DIR$/result.html" />
         <option value="$PROJECT_DIR$/assets/js/result.js" />
+        <option value="$PROJECT_DIR$/assets/js/popup.js" />
       </list>
     </option>
   </component>
@@ -983,12 +970,12 @@
       <workItem from="1521063468395" duration="10249000" />
       <workItem from="1521156348351" duration="28000" />
       <workItem from="1521637724987" duration="2798000" />
-      <workItem from="1521643279187" duration="9698000" />
+      <workItem from="1521643279187" duration="10043000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29960000" />
+    <option name="totallyTimeSpent" value="30305000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
@@ -1377,10 +1364,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/popup.js">
+    <entry file="file://$PROJECT_DIR$/assets/js/result.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="147" column="13" lean-forward="false" selection-start-line="147" selection-start-column="10" selection-end-line="147" selection-end-column="13" />
+        <state relative-caret-position="132">
+          <caret line="6" column="26" lean-forward="true" selection-start-line="6" selection-start-column="26" selection-end-line="6" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -1393,10 +1380,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/js/result.js">
+    <entry file="file://$PROJECT_DIR$/assets/js/popup.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+        <state relative-caret-position="110">
+          <caret line="5" column="49" lean-forward="false" selection-start-line="5" selection-start-column="49" selection-end-line="5" selection-end-column="49" />
           <folding />
         </state>
       </provider>
