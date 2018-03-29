@@ -104,6 +104,11 @@ $(function () {
       requestedURL: "hash",
       hash: hash,
       blockchain: blockchain,
+      meta_category: 'Chrome Extension',
+      // meta_filename
+      // meta_category
+      // meta_notes
+      // meta_emails
     }, function (res) {
       var res_json = JSON.parse(res);
       cb(res_json ? res_json : false);
