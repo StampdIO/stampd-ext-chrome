@@ -2,7 +2,7 @@
 $(function () {
 
   var HASH_PREFIX = '5354414d50442323';
-  var API_URL = 'http://dev.stampd.io/api/v2.php';
+  var API_URL = 'http://localhost/stampd-v3/api/v2.php';
   // var API_URL = 'https://stampd.io/api/v2.php';
 
   var $blockchain = $('[name="blockchain"]');

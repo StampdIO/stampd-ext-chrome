@@ -408,24 +408,24 @@ html {
   height: auto; }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter UI', sans-serif;
   height: auto;
   font-size: 1em;
   min-width: 400px;
-  background: #fcfcfc;
-  color: #000;
+  background: #252635;
+  color: #FFF;
   font-weight: normal;
   position: relative;
   margin: 0;
   padding: 0; }
 
 a {
-  color: #039be5;
+  color: #8CC63F;
   text-decoration: none; }
 
 p {
   font-size: 1.2rem;
-  color: #313131; }
+  color: #FFF; }
 
 form {
   -webkit-transition: opacity 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
@@ -439,11 +439,16 @@ form {
   vertical-align: top;
   width: 100%; }
   .container__title {
-    color: #313131;
+    display: block;
+    color: #FFF;
     font-size: 1.8rem;
     line-height: 110%;
     margin: 1.2rem 0 1.2rem 0;
     text-align: center; }
+    .container__title svg {
+      display: inline-block;
+      vertical-align: top;
+      max-height: 40px; }
   .container__max-width {
     display: block;
     max-width: 1200px;
@@ -461,18 +466,18 @@ form {
   -webkit-appearance: none;
   text-decoration: none;
   color: #FFF;
-  background: #6E8CEE;
+  background: rgba(255, 255, 255, 0.22);
   text-align: center;
-  letter-spacing: .5px;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 16px 24px;
+  margin: 20px 0 0 0;
   -webkit-transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
-  transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
-  font-size: 1.5rem;
-  border: none;
-  border-radius: 2px;
-  height: 36px;
-  line-height: 36px;
-  padding: 0 2rem;
-  text-transform: uppercase; }
+  transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1); }
+  .button:hover {
+    background: -webkit-gradient(linear, left top, right top, from(#3ab03e), to(#0089d0));
+    background: linear-gradient(90deg, #3ab03e, #0089d0); }
 
 .tabs__menu {
   position: relative;
@@ -480,11 +485,9 @@ form {
   overflow-y: hidden;
   height: 48px;
   width: 100%;
-  background-color: #FFF;
+  background-color: transparent;
   margin: 0 auto;
-  white-space: nowrap;
-  -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2); }
+  white-space: nowrap; }
 
 .tabs__tab {
   padding: 0;
@@ -502,16 +505,16 @@ form {
   text-overflow: ellipsis;
   overflow: hidden;
   opacity: 0.75;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   cursor: pointer;
-  color: #6E8CEE;
+  color: #FFF;
   -webkit-transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
   transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1); }
   .tabs__tab:hover {
     opacity: 1; }
   .tabs__tab.is-active {
     opacity: 1;
-    border-color: #6E8CEE; }
+    border-color: #FFF; }
 
 .tabs__content {
   display: none;
@@ -525,22 +528,23 @@ form {
   .input__el {
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid #9e9e9e;
-    color: #000;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     border-radius: 0;
     outline: none;
-    height: 3rem;
     width: 100%;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     margin: 0 0 20px 0;
-    padding: 0;
     -webkit-box-shadow: none;
             box-shadow: none;
     -webkit-transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
-    transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1); }
+    transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
+    padding: 12px 0; }
+    .input__el option {
+      color: #000; }
     .input__el:focus {
-      color: #6E8CEE;
-      border-color: #6E8CEE; }
+      color: #FFF;
+      border-color: #FFF; }
     .input__el::-webkit-input-placeholder {
       color: #9e9e9e; }
     .input__el:-moz-placeholder {
@@ -551,7 +555,7 @@ form {
       color: #9e9e9e; }
 
 .input__el.parsley-error {
-  border-color: #F85C4F; }
+  border-color: #721c24; }
 
 .parsley-errors-list {
   position: absolute;
@@ -561,7 +565,7 @@ form {
   padding: 0;
   margin: 0;
   font-size: 1rem;
-  color: #F85C4F;
+  color: #721c24;
   -webkit-transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
   transition: 250ms cubic-bezier(0.39, 0.575, 0.565, 1);
   opacity: 0;
