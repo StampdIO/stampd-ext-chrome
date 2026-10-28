@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Pre-commit hook (Lightstone standards) — adapted for build-only JS repos
+# (gulp-based, no lint/test config yet). Bypass with SKIP_HOOKS=1 (never --no-verify).
+set -e
+[ -n "${SKIP_HOOKS:-}" ] && { echo "SKIP_HOOKS set — skipping"; exit 0; }
+command -v node >/dev/null 2>&1 || { echo "node not found — install Node.js"; exit 1; }
+CHANGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|mjs|cjs)$' | grep -vE '\.min\.js$' || true)
+if [ -n "$CHANGED" ]; then
+  echo "→ node --check on staged JS"
+  FAIL=0
+  while IFS= read -r f; do
+    [ -f "$f" ] || continue
+    if ! node --check "$f" 2>/dev/null && ! node --input-type=module --check < "$f" 2>/dev/null; then
+      echo "  syntax error: $f"; FAIL=1
+    fi
+  done <<< "$CHANGED"
+  [ "$FAIL" = "1" ] && { echo "JS syntax check failed"; exit 1; }
+fi
+echo "✓ pre-commit checks passed"

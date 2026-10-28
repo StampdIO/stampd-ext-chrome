@@ -1,0 +1,67 @@
+name: PR Checks
+
+# Adapted from lightstone-standards templates/node-plain/.github/workflows/pr-checks.yml.
+# ⚠ Deliberate divergence: this is a gulp-only repo with no pnpm lockfile and no `lint` /
+# `test` scripts, so the template's `pnpm install --frozen-lockfile && pnpm lint && pnpm test`
+# would fail on every PR. Until the planned rebuild gives it a real toolchain, CI runs the same
+# check as `.githooks/pre-commit`: a syntax check of every tracked JS file (minified vendor
+# copies excluded). The `PR Status` aggregate keeps the standard name, so branch protection can
+# require it and nothing changes when the real checks arrive.
+
+on:
+  pull_request:
+    branches: [production]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Show toolchain
+        run: node -v
+
+      # CommonJS first, then ESM: `node --check` treats .js as CommonJS, so an ES module file
+      # needs the second form. Same fallback as the pre-commit hook.
+      - name: JS syntax check
+        run: |
+          FAIL=0
+          N=0
+          while IFS= read -r f; do
+            N=$((N + 1))
+            if ! node --check "$f" 2>/dev/null && ! node --input-type=module --check < "$f" 2>/dev/null; then
+              echo "::error file=$f::JS syntax error"
+              FAIL=1
+            fi
+          done < <(git ls-files '*.js' '*.mjs' '*.cjs' | grep -vE '(^|/)node_modules/|\.min\.js$')
+          echo "Checked $N file(s)"
+          if [ "$N" -eq 0 ]; then
+            echo "::error::no JS files found to check; the file list is wrong"
+            exit 1
+          fi
+          exit $FAIL
+
+  # The single context branch protection gates on: `PR Checks / PR Status`.
+  # `if: always()` so a failed dependency reports failure rather than `skipped`.
+  pr-status:
+    name: PR Status
+    runs-on: ubuntu-latest
+    needs: [checks]
+    if: always()
+    steps:
+      - name: Summary
+        run: |
+          echo "Checks: ${{ needs.checks.result }}"
+          if [ "${{ needs.checks.result }}" != "success" ]; then
+            exit 1
+          fi
