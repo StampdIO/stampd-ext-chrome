@@ -9,7 +9,7 @@ Stampd.io Chrome extension (Manifest V2) — hashes page content or a screenshot
 ## Stack
 
 - **Language/Runtime**: node-plain
-- **Doppler project**: `stampd-ext-chrome`
+- **Doppler project**: none — the extension holds no secrets; each user enters their own stampd.io API key
 - **Default branch**: `production`
 - **Deploy target**: distributed client app (not server-deployed)
 
@@ -54,11 +54,25 @@ The Claude reviewer flags:
 
 ## Repo structure
 
-<!-- App-specific layout — fill in after scaffold -->
+```
+manifest.json        # Manifest V2 (V3 migration: #26)
+popup.html, result.html
+assets/js/           # popup.js, content.js, result.js, sha256.js (+ vendored *.min.js)
+gulp/, gulpfile.js   # Sass/asset build
+```
 
 ## Commands
 
-<!-- Stack-specific commands inserted by scaffold -->
+This repo has no lint or test setup yet (see `docs/BACKLOG.md`); the generic pnpm commands above
+do not apply. What exists:
+
+```bash
+npm install        # gulp toolchain (old; may not install on Node 24)
+npx gulp           # build assets
+# CI and the pre-commit hook: node --check on every tracked JS file except *.min.js
+```
+
+Load it in Chrome via chrome://extensions → Developer mode → Load unpacked.
 
 ## Reference
 
